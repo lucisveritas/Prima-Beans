@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+
+<!-- Report Interface -->
+<div id="reportInterface">
+  <!-- Navigation Sizebar -->
+  <div id="buttonNavigationSidebar">
+    <button id="switchToOrderInterface" class="buttonSidebar" type="button" onclick="switchToOrderInterface()"> Order </button>
+    <button id="switchToReportInterface" class="buttonSidebar" type="button" onclick="switchToReportInterface()"> Report </button>
+    <button id="resetAll" class="buttonSidebar" type="button" onclick="resetAll()"> Reset </button>
+    <button id="exit" class="buttonSidebar" type="button" onclick="exit()"> Exit </button>
+  </div>
+  <div id="panelReport">
+    <h2>Drink Type</h2>
+    <h2>Total</h2>
+    <p>Flat White</p>
+    <p id="totalFlatWhite"></p>
+    <p>Cappucino</p>
+    <p id="totalCappucino"></p>
+    <p>Long Mac</p>
+    <p id="totalLongMac"></p>
+    <p>Espresso Shot</p>
+    <p id="totalEspressoShot"></p>
+    <h2>Total</h2>
+    <h2 id="reportTotal"></h2>
+  </div>
+
+</div>
+<!-- Order Interface -->
+<div id="orderInterface">
+  <!-- Navigation Sizebar -->
+  <div id="buttonNavigationSidebar">
+    <button id="switchToOrderInterface" class="buttonSidebar" type="button" onclick="switchToOrderInterface()"> Order </button>
+    <button id="switchToReportInterface" class="buttonSidebar" type="button" onclick="switchToReportInterface()"> Report </button>
+    <button id="resetAll" class="buttonSidebar" type="button" onclick="resetAll()"> Reset </button>
+    <button id="exit" class="buttonSidebar" type="button" onclick="exit()"> Exit </button>
+  </div>
+
+  <!-- Drink Type -->
+  <div id="panelDrinkType">
+    <button id="flatWhite" type="button" onclick="flatWhite()"> flatWhite </button>
+    <button id="cuppacino" type="button" onclick="cappucino()"> cappucino </button>
+    <button id="longMac" type="button" onclick="longMac()"> longMac </button>
+    <button id="espressoShot" type="button" onclick="espressoShot()"> espressoShot </button>
+  </div>
+
+  <!-- Drink Size -->
+  <div id="panelDrinkSize">
+    <button id="drinkSizeSmall" type="button" onclick="drinkSizeSmall()"> drinkSizeSmall </button>
+    <button id="drinkSizeLarge" type="button" onclick="drinkSizeLarge()"> drinkSizeLarge </button>
+  </div>
+
+  <!-- Drink Quantity -->
+  <div id="panelDrinkQuantity">
+    <div id="wrapperInputAndButtonDrinkQuantity">
+      <button type="button" onclick="decreaseDrinkQuantity()"> - </button>
+      <input id="inputDrinkQuantity" type="text" onchange="updateDrinkQuantity()"></input>
+      <button type="button" onclick="increaseDrinkQuantity()"> + </button>
+    </div>
+    <div id="wrapperAddToOrder">
+      <button id="addItemToOrder" type="button" onclick="addItemToOrder()"> Add Drink to Order </button>
+    </div>
+    <div id="wrapperErrorMessage">
+      <p id="outputDrinkQuantityError" class="errorMessage">Please enter a drink quantity, in the form of a positive integer greater than zero.</p>
+      <p id="outputDrinkTypeError" class="errorMessage">Please select a drink type.</p>
+      <p id="outputDrinkSizeError" class="errorMessage">Please select a drink size.</p>
+    </div>
+  </div>
+
+  <!-- Order Summary -->
+  <div id="panelOrderSummary">
+    <div id="wrapperPrimaBeansYN">
+      <p style="margin: 5px">Prima Beans Member:</p>
+      <button type="button" onclick="primaBeansYes()"> Y </button>
+      <button type="button" onclick="primaBeansNo()"> N </button>
+    </div>
+    <div id="wrapperOrderSummary">
+      <p id="outputDrinkPrice"></p>
+      <p id="outputDrinkQuantity"></p>
+  </div>
+    <div id="wrapperOrderTotalSummary">
+      <p id="outputOrderSubtotal">Subtotal: </p>
+      <p id="outputOrderDiscount">Discount: </p>
+      <p id="outputOrderTotal">Total: </p>
+      <button type="button" onclick="completeOrder()"> Complete Order </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html> 
+

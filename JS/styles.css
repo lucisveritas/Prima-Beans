@@ -1,0 +1,81 @@
+#reportInterface {
+    display: none;
+    grid-template-columns: 5% 95%;
+    grid-gap: 10px;
+    height: 100vh;
+}
+
+#panelReport {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 5%;
+    align-items: center;
+}
+
+#orderInterface {
+    display: grid;
+    grid-template-columns: 5% 20% 20% 20% 30%;
+    grid-gap: 10px;
+    height: 100vh;
+}
+
+#panelDrinkType {
+    display: grid;
+    grid-template-rows: 25% 25% 25% 25%;
+    grid-gap: 10px;
+    height: 100vh;
+}
+
+#panelDrinkSize {
+    display: grid;
+    grid-template-rows: 25% 25%;
+    grid-gap: 10px;
+    height: 100vh;
+}
+
+#panelDrinkQuantity {
+    display: grid;
+    grid-template-rows: 25px 30px;
+    grid-gap: 10px;
+    height: 100vh;
+}
+
+#panelOrderSummary {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    height: 100vh;
+    padding-inline: 10px;
+}
+
+#wrapperInputAndButtonDrinkQuantity {
+    display: grid;
+    grid-template-columns: 25px 50% 25px;
+    justify-content: center;
+}
+
+#wrapperAddToOrder {
+    display: flex;
+    justify-content: center;
+}
+
+#wrapperPrimaBeansYN {
+    display: grid;
+    grid-template-columns: auto 25px 25px;
+    height: 10px;
+}
+
+#inputDrinkQuantity {
+    text-align: center;
+}
+
+.errorMessage {
+    display: none;
+}
+
+.buttonSidebar {
+    width: 100%;
+    padding-top: 35%;
+    padding-bottom: 35%;
+    text-align: center;
+    margin-bottom: 10px;
+}

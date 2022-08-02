@@ -1,0 +1,351 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INITIALISATION OF VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+drinkPrice = 0
+drinkType = ""
+drinkSize = ""
+drinkQuantity = 0
+UserInputtedDrinkQuantity = 0
+orderSubtotal = 0
+orderTotal = 0
+orderList = []
+reportList = []
+primaBeansMember = false
+orderDiscount = 0
+
+totalEspressoShot = 0
+totalLongMac = 0
+totalCappucino = 0
+totalFlatWhite = 0
+reportTotal = 0
+reportDrinkType = 0
+reportItemPrice = 0
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BUTTONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Module exit(): #ButtonExit
+    @End Program
+End Module
+
+Module reset(): #ButtonReset
+    drinkPrice = 0
+    drinkType = ""
+    drinkSize = ""
+    drinkQuantity = 0
+    UserInputtedDrinkQuantity = 0
+    orderSubtotal = 0
+    orderTotal = 0
+    orderList = []
+    primaBeansMember = false
+    orderDiscount = 0
+End Module
+
+Module PriceList(): #ButtonPriceList
+    @Generate and display table of prices for each drink on menu
+End Module
+
+Module Report(): #ButtonReport
+    output(reportInterface)
+End Module
+
+Module Order(): #ButtonOrder
+    output(orderInterface)
+End Module
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CALCULATIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Function calcDrinkPrice(): #Calculates drinkPrice from drinkType and drinkSize
+    If drinkType = "Espresso Shot": 
+        return 3
+    Else If: drinkType = "Long Mac":
+        If drinkSize = "Small":
+            return 4.6
+        Else:
+            return 5
+    Else If: drinkType = "Cappucino":
+        If drinkSize = "Small":
+            return 4.5
+        Else:
+            return 5
+    Else If: drinkType = "Flat White":
+        If drinkSize = "Small":
+            return 4.3
+        Else:
+            return 4.8
+End Function
+
+Module calcOrderTotal(): #Calculates orderTotal
+    @
+End Module
+
+Function orderValidation(drinkType, drinkSize, drinkQuantity): 
+    If drinkType = "": #checks that a drink type has been selected
+        output("Please select a drink type.") #outputs an error message If a drink type has not been selected 
+        return True #returns True If there is an error
+    Else If: drinkSize = "": #checks that a drink type has been selected
+        output("Please select a drink size.") #outputs an error message If a drink size has not been selected
+        return True
+    Else If: drinkQuantity <= 0 OR type(drinkQuantity) is not integer: #checks that the drink quantity is an integer and that drink quantity is greater than 0        output("Please input an integer quantity greater than 0.")
+        return True
+    Else:
+        return False #returns False If there is not an error
+    End If
+End Function
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ORDER INTERFACE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Module updateDrinkPrice():
+    output(drinkPrice)
+End Module
+
+Module flatWhite(): #ButtonFlatWhite 
+    drinkType = "Flat White" #Sets drinkType to "Flat White"
+End Module
+
+Module cappucino(): #ButtonCappucino
+    drinkType = "Cappucino" #Sets drinkType to "Cappucino"
+End Module
+
+Module longMac(): #ButtonLongMac
+    drinkType = "Long Mac" #Sets drinkType to "Long Mac"
+End Module
+
+Module espressoShot(): #ButtonEspressoShot
+    drinkType = "Espresso Shot" #Sets drinkType to "Espresso Shot"
+End Module
+
+Module drinkSizeSmall(): #ButtonDrinkSizeSmall
+    drinkSize = "Small" #Sets drinkSize to "Small"
+End Module
+
+Module drinkSizeLarge(): #ButtonDrinkSizeLarge
+    drinkSize = "Large" #Sets drinkSize to "Large"
+End Module
+
+Module drinkQuantity(): #InputBoxDrinkQuantity
+    input(UserInputtedDrinkQuantity) #Sets drinkQuantity to user inputted value
+    If ((drinkQuantityLengthValidation(UserInputtedDrinkQuantity)) == false):
+        If ((drinkQuantityIntegerValidation(UserInputtedDrinkQuantity)) == false):
+            If ((drinkQuantityParityValidation(UserInputtedDrinkQuantity)) == false):
+                drinkQuantity = int(UserInputtedDrinkQuantity)
+            End If
+            Else:
+                drinkQuantity = 0
+                output(DrinkQuantityError) #If user inputted drink quantity is not an integer, outputs an error message
+            End If
+        End If
+        Else:
+            drinkQuantity = 0
+            output(DrinkQuantityError) #If user inputted drink quantity is not an integer, outputs an error message
+        End If
+    End If
+    Else:
+        drinkQuantity = 0
+        output(DrinkQuantityError) #If user inputted drink quantity is not an integer, outputs an error message
+    End If
+End Module
+
+Module drinkQuantityDecrease(): #ButtonDrinkQuantityDecrease
+    If drinkQuantity > 0: #Prevents drinkQuantity from being negative
+        drinkQuantity -= 1 #Decreases drinkQuantity by 1
+    End If
+End Module
+
+Module drinkQuantityIncrease(): #ButtonDrinkQuantityIncrease
+    drinkQuantity += 1 #Increases drinkQuantity by 1
+End Module
+
+Module addToOrder(): #ButtonAddToOrder
+    If ((orderValidation(drinkType, drinkSize, drinkQuantity)) == false):
+        drinkPrice = calcDrinkPrice(drinkType,drinkSize)
+        itemPrice = drinkQuantity * drinkPrice
+        orderItem = [drinkType, drinkSize, drinkQuantity, drinkPrice, itemPrice]; #creates new instance of drinkOrder class using current drink configuration
+        append orderItem to orderList #adds the new order item to the order list 
+        orderPrice = 0;
+        calcOrderSubtotal() #calculate and refresh orderSubtotal, orderTotal
+        resetItem() #reset drink variables
+End Module
+
+Module PrimaBeansYes():
+    PrimaBeansMember = True
+    updateOrderTotal() 
+End Module
+
+Module PrimaBeansNo():
+    PrimaBeansMember = False
+    updateOrderTotal() 
+End Module
+
+Function drinkQuantityValidation(UserInputtedDrinkQuantity):
+    error = drinkQuantityLengthValidation(UserInputtedDrinkQuantity)
+    error = drinkQuantityIntegerValidation(UserInputtedDrinkQuantity)
+    error = drinkQuantityParityValidation(UserInputtedDrinkQuantity)
+    If (error == true):
+        output(DrinkQuantityError) #If user inputted drink quantity is not an integer, outputs an error message
+    End If
+    return error
+End Function
+
+Module orderValidation(drinkType, drinkSize, drinkQuantity): 
+    if (drinkType == ""): #checks that a drink type has been selected
+        output(DrinkTypeError) #outputs an error message if a drink type has not been selected 
+        return true; #returns true if an error is present
+    Else If: (drinkSize == ""): 
+        output(DrinkSizeError) #outputs an error message if a drink size has not been selected 
+        return true; #returns true if an error is present
+    Else If: ((drinkQuantityValidation(drinkQuantity)) == true):
+        return true #returns true if an error is present
+    Else:
+        return false; #returns false if an error is not present
+    End If
+End Function
+
+Module addItemToOrder(): #ButtonAddToOrder
+    if ((orderValidation(drinkType, drinkSize, drinkQuantity)) == false):
+        #document.getElementById("outputOrderList").innerHTML = "hi";
+        itemPrice = drinkQuantity * drinkPrice
+        const orderItem = [drinkType, drinkSize, drinkQuantity, drinkPrice, itemPrice]; #creates new instance of drinkOrder class using current drink configuration
+        orderList.push(orderItem); #adds the new order item to the order list 
+        orderPrice = 0;
+        calcOrderSubtotal()
+        resetItem()
+    End If
+End Module
+
+Module calcOrderSubtotal():
+    orderSubtotal = 0;
+    For (i in orderList)):
+        orderPrice = orderList[i][4]
+        orderSubtotal += orderPrice;
+        updateOutputOrderSubtotal()
+    End For Loop
+    updateOrderTotal()
+End
+
+Module updateOutputOrderSubtotal():
+    output(orderSubtotal)
+End Module 
+
+Module updateOutputOrderDiscount():
+    output(orderDiscount)
+End Module 
+
+Module updateOutputOrderTotal():
+    output(orderTotal)
+End Module 
+
+Module updateOrderTotal(): 
+    If (primaBeansMember == true):
+        orderDiscount = orderSubtotal * 0.1
+    Else:
+        orderDiscount = 0
+    End If
+    orderTotal = orderSubtotal - orderDiscount
+    updateOutputOrderDiscount()
+    updateOutputOrderTotal()
+End
+
+Module completeOrder():
+    add primaBeansMember to start of orderList
+    append orderList to reportList
+    resetOrder()
+    updateAllOrderOutputs()
+End
+
+Module updateAllOrderOutputs():
+    output(orderSubtotal)
+    output(orderDiscount)
+    output(orderTotal)
+End
+
+Module generateReport():
+    resetReportTotals()
+    For (order in reportList):
+        If (reportList[order][0] == true): #checks if order is a Prima Beans Member
+            For (drink in (reportList-1)): #if order is a Prima Beans Member, calculates total with discount  
+                reportDrinkType = reportList[order][(drink+1)][0]
+                reportItemPrice = reportList[order][(drink+1)][5] * 0.1
+                calcReportTotals(reportDrinkType,reportItemPrice)
+            End For Loop
+        Else:
+            For (drink in reportList[order]): #if order is not a Prima Beans Member, calculates total without discount  
+                reportDrinkType = reportList[order][(drink+1)][0]
+                reportItemPrice = reportList[order][(drink+1)][5]
+                calcReportTotals(reportDrinkType,reportItemPrice)
+            End For Loop
+        End If
+    End For Loop
+    updateReportTotals()
+End Module 
+
+Module calcReportTotals(drinkType,itemPrice){
+    if (drinkType == "Espresso Shot"):
+        totalEspressoShot += itemPrice
+    Else If: (drinkType == "Long Mac"):
+        totalLongMac += itemPrice
+    Else If: (drinkType == "Cappucino"):
+        totalCappucino += itemPrice
+    Else If: (drinkType == "Flat White"):
+        totalFlatWhite += itemPrice
+    End If 
+    reportTotal += itemPrice
+End Module
+
+Module updateReportTotals(): #populates report total table
+    output(totalFlatWhite)
+    output(totalCappucino)
+    output(totalLongMac)
+    output(totalEspressoShot)
+    output(reportTotal)
+End Module
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RESETS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function resetOrder() {
+    drinkPrice = 0;
+    drinkType = "";
+    drinkSize = "";
+    drinkQuantity = 0;
+    UserInputtedDrinkQuantity = 0;
+    orderSubtotal = 0;
+    orderTotal = 0;
+    orderList = [];
+    primaBeansMember = false;
+    orderDiscount = 0;
+    updateAllOrderOutputs()
+}
+
+function resetItem() {
+    drinkPrice = 0;
+    drinkType = "";
+    drinkSize = "";
+    drinkQuantity = 0;
+    UserInputtedDrinkQuantity = 0;
+    primaBeansMember = false;
+    updateAllOrderOutputs()
+}
+
+function resetAll() {
+    drinkPrice = 0;
+    drinkType = "";
+    drinkSize = "";
+    drinkQuantity = 0;
+    UserInputtedDrinkQuantity = 0;
+    orderSubtotal = 0;
+    orderTotal = 0;
+    orderList = [];
+    reportList = [];
+    primaBeansMember = false;
+    orderDiscount = 0;
+    updateReportTotals()
+    updateAllOrderOutputs()
+}
+
+function resetReportTotals() {
+    totalEspressoShot = 0;
+    totalLongMac = 0;
+    totalCappucino = 0;
+    totalFlatWhite = 0;
+    reportTotal = 0;
+    reportDrinkType = 0;
+    reportItemPrice = 0;
+}
